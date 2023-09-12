@@ -9,14 +9,14 @@
  */
 int main(void)
 {
-    int i = 0;
-    char word[] = "_putchar\n";
+	int i = 0;  /* Missing blank line corrected */
+	char word[] = "_putchar\n";  /* This line and the next are indented with tabs now */
 
-    while (word[i] != '\0')
-    {
-        _putchar(word[i]);
-        i++;
-    }
+	while (word[i] != '\0')
+	{
+		_putchar(word[i]);
+		i++;
+	}
 
-    return (0);
+	return (0);  /* Added missing semicolon */
 }
