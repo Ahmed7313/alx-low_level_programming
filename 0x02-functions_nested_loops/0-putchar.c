@@ -1,22 +1,22 @@
 #include "main.h"
 
 /**
-^I* main - Entry point
-^I*
-^I* Description: Prints "_putchar" followed by a new line
-^I*
-^I* Return: Always 0 (Success)
-^I*/
+ * main - Entry point
+ *
+ * Description: Prints "_putchar" followed by a new line
+ *
+ * Return: Always 0 (Success)
+ */
 int main(void)
 {
-^Iint i = 0;
-^Ichar word[] = "_putchar\n";
+    int i = 0;
+    char word[] = "_putchar\n";
 
-^Iwhile (word[i] != '\0')
-^I{
-^I_putchar(word[i]);
-^Ii++;
-^I}
+    while (word[i] != '\0')
+    {
+        _putchar(word[i]);
+        i++;
+    }
 
-^Ireturn (0);
+    return (0);
 }
