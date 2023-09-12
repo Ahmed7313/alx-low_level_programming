@@ -1,21 +1,22 @@
 #include "main.h"
 
 /**
- * main - Prints "_putchar" followed by a new line
- *
- * Return: Always 0 (Success)
- */
+^I* main - Entry point
+^I*
+^I* Description: Prints "_putchar" followed by a new line
+^I*
+^I* Return: Always 0 (Success)
+^I*/
 int main(void)
 {
-    int i = 0;  // Initialize to 0
-    char word[] = "_putchar\n";
+^Iint i = 0;
+^Ichar word[] = "_putchar\n";
 
-    // Loop through each character in the string until we hit the null terminator
-    while (word[i] != '\0')
-    {
-        _putchar(word[i]);
-        i++;
-    }
+^Iwhile (word[i] != '\0')
+^I{
+^I_putchar(word[i]);
+^Ii++;
+^I}
 
-    return (0);
+^Ireturn (0);
 }
