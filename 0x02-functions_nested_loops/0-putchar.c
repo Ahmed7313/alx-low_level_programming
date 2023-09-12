@@ -2,15 +2,13 @@
 
 /**
  * main - Entry point
- *
  * Description: Prints "_putchar" followed by a new line
- *
  * Return: Always 0 (Success)
  */
 int main(void)
 {
-	int i = 0;  /* Missing blank line corrected */
-	char word[] = "_putchar\n";  /* This line and the next are indented with tabs now */
+	int i = 0;
+	char word[] = "_putchar\n";
 
 	while (word[i] != '\0')
 	{
@@ -18,5 +16,5 @@ int main(void)
 		i++;
 	}
 
-	return (0);  /* Added missing semicolon */
+	return (0);
 }
