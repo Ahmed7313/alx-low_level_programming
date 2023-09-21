@@ -1,21 +1,20 @@
 #include "main.h"
 
 /**
- * string_toupper - Changes all lowercase letters of a string to uppercase.
- * @s: The string to convert.
+ * is_separator - Check if a character is a separator.
+ * @c: The character to check.
  *
- * Return: A pointer to the string after converting to uppercase.
+ * Return: 1 if separator, otherwise 0.
  */
-char *string_toupper(char *s)
+int is_separator(char c)
 {
+	char separators[] = " \t\n,;.!?\"(){}";
 	int i;
 
-	for (i = 0; s[i] != '\0'; i++)
+	for (i = 0; separators[i]; i++)
 	{
-		if (s[i] >= 'a' && s[i] <= 'z')
-		{
-			s[i] = s[i] - ('a' - 'A');
-		}
+		if (c == separators[i])
+			return (1);
 	}
-	return (s);
+	return (0);
 }
