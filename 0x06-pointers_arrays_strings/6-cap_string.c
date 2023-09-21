@@ -18,3 +18,26 @@ int is_separator(char c)
 	}
 	return (0);
 }
+
+/**
+ * cap_string - Capitalizes all words of a string.
+ * @s: The string to capitalize.
+ *
+ * Return: A pointer to the modified string.
+ */
+char *cap_string(char *s)
+{
+	int i;
+
+	/* Capitalize the first word */
+	if (s[0] >= 'a' && s[0] <= 'z')
+		s[0] -= ('a' - 'A');
+
+	for (i = 1; s[i]; i++)
+	{
+		if (is_separator(s[i - 1]) && s[i] >= 'a' && s[i] <= 'z')
+			s[i] -= ('a' - 'A');
+	}
+
+	return (s);
+}
