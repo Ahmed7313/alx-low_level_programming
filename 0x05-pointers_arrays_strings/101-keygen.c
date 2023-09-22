@@ -18,11 +18,12 @@ int main(void)
 	srand(time(NULL));
 
 	/* Keep generating characters until we reach the limit */
-	for (l = 0; l <= 2645; l += c)
+	while (l < 2645)
 	{
-		/* Generate a random character */
-		c = rand() % 128;
+		/* Generate a random printable character */
+		c = (rand() % 94) + 33;
 		putchar(c);
+		l += c;
 	}
 
 	/* Generate the last character to reach 2772 */
