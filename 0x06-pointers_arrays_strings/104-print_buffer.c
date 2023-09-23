@@ -1,39 +1,50 @@
 #include "main.h"
-#include <stdio.h>
-#include <ctype.h>
 
 /**
- * print_buffer - prints a buffer
- * @b: the buffer
- * @size: the size of the buffer
+ * print_buffer - Prints a buffer up to a size
+ * @b: Buffer to print
+ * @size: Size of the buffer to print
+ *
+ * Return: void
  */
 void print_buffer(char *b, int size)
 {
 	int i, j;
 
+	if (size <= 0)
+	{
+		_putchar('\n');
+		return;
+	}
+
 	for (i = 0; i < size; i += 10)
 	{
+		/* Print index */
 		printf("%08x: ", i);
+
+		/* Print hex values */
 		for (j = 0; j < 10; j += 2)
 		{
 			if (i + j < size)
-				printf("%02x", *(b + i + j));
+				printf("%02x", b[i + j]);
 			else
 				printf("  ");
+
 			if (i + j + 1 < size)
-				printf("%02x ", *(b + i + j + 1));
+				printf("%02x ", b[i + j + 1]);
 			else
 				printf("   ");
 		}
+
+		/* Print char values */
 		for (j = 0; j < 10 && i + j < size; j++)
 		{
-			if (isprint(*(b + i + j)))
-				putchar(*(b + i + j));
+			if (b[i + j] >= ' ' && b[i + j] <= '~')
+				_putchar(b[i + j]);
 			else
-				putchar('.');
+				_putchar('.');
 		}
-		putchar('\n');
+
+		_putchar('\n');
 	}
-	if (size <= 0)
-		putchar('\n');
 }
