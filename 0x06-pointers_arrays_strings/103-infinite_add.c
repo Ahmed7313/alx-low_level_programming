@@ -3,50 +3,65 @@
 #include <string.h>
 
 /**
- * infinite_add - adds two numbers
- * @n1: the first number
- * @n2: the second number
- * @r: the buffer to store the result
- * @size_r: the buffer size
- * Return: pointer to the result
+ * infinite_add - Adds two numbers.
+ * @n1: First string number.
+ * @n2: Second string number.
+ * @r: Buffer to store result.
+ * @size_r: Size of the buffer.
+ * Return: Pointer to result or 0 if buffer is too small.
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int i, j, k, l, m, n, carry;
+	int i, j, k, sum, carry;
+	int len1 = strlen(n1);
+	int len2 = strlen(n2);
 
-	i = strlen(n1) - 1;
-	j = strlen(n2) - 1;
-	k = 0;
 	carry = 0;
+	i = len1 - 1;
+	j = len2 - 1;
+	k = 0;
 
-	if (size_r <= i || size_r <= j || size_r < 2)
-		return (0);
-
-	while (i >= 0 || j >= 0)
+	while (i >= 0 || j >= 0 || carry > 0)
 	{
-		m = (i >= 0) ? n1[i] - '0' : 0;
-		n = (j >= 0) ? n2[j] - '0' : 0;
-		r[k] = (m + n + carry) % 10 + '0';
-		carry = (m + n + carry) / 10;
-		i--;
-		j--;
-		k++;
+		sum = carry;
+		if (i >= 0)
+			sum += n1[i] - '0';
+		if (j >= 0)
+			sum += n2[j] - '0';
+
+		if (k >= (size_r - 1))
+			return (0);
+
+		r[k] = (sum % 10) + '0';
+		carry = sum / 10;
+
+		i--, j--, k++;
 	}
-
-	if (carry)
-		r[k++] = carry + '0';
-
-	if (k >= size_r)
-		return (0);
 
 	r[k] = '\0';
+	return (reverse_string(r, k));
+}
 
-	for (l = 0, k--; l < k; l++, k--)
+/**
+ * reverse_string - Reverses a string in place.
+ * @str: The string to reverse.
+ * @length: The length of the string.
+ * Return: A pointer to the reversed string.
+ */
+char *reverse_string(char *str, int length)
+{
+	int start = 0, end = length - 1;
+	char temp;
+
+	while (start < end)
 	{
-		carry = r[k];
-		r[k] = r[l];
-		r[l] = carry;
+		temp = str[start];
+		str[start] = str[end];
+		str[end] = temp;
+
+		start++;
+		end--;
 	}
 
-	return (r);
+	return (str);
 }
