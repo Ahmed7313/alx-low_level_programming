@@ -9,4 +9,5 @@ void print_number(int n);
 char *infinite_add(char *n1, char *n2, char *r, int size_r);
 char *reverse_string(char *str, int length)
 void _putchar(char c);
+void print_buffer(char *b, int size);
 #endif /* MAIN_H */
