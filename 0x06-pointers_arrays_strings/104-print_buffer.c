@@ -1,68 +1,69 @@
 #include "main.h"
 
 /**
- * print_buffer - Prints a buffer in a special format
- * @b: The buffer
- * @size: The size of the buffer
+ * print_buffer - prints the content of size bytes of the buffer pointed by b
+ * @b: pointer to the buffer
+ * @size: number of bytes to print
  */
 void print_buffer(char *b, int size)
 {
-	int i;
+	int i, j;
+
+	if (size <= 0)
+	{
+		_putchar('\n');
+		return;
+	}
 
 	for (i = 0; i < size; i += 10)
 	{
-		/* Print the index */
-		print_hex(b, i, size);
-		print_char(b, i, size);
-	}
+		/* Print index */
+		print_hex(i);
+		_putchar(':');
+		_putchar(' ');
 
-	if (size <= 0)
-		_putchar('\n');
-}
+		/* Print hex values */
+		for (j = i; j < i + 10; j += 2)
+		{
+			if (j < size)
+				print_hex((unsigned char)b[j]);
+			else
+				_putchar(' ');
 
-/**
- * print_hex - Prints the hexadecimal part of the buffer line
- * @b: The buffer
- * @i: The starting index
- * @size: The size of the buffer
- */
-void print_hex(char *b, int i, int size)
-{
-	int j;
+			if (j + 1 < size)
+				print_hex((unsigned char)b[j + 1]);
+			else
+				_putchar(' ');
 
-	printf("%08x: ", i);
-
-	for (j = 0; j < 10; j++)
-	{
-		if (j % 2 == 0 && j != 0)
 			_putchar(' ');
+		}
 
-		if (i + j < size)
-			printf("%02x", b[i + j]);
-		else
-			printf("  ");
+		/* Print characters or '.' */
+		for (j = i; j < i + 10; j++)
+		{
+			if (j >= size)
+				break;
+
+			if (b[j] < ' ' || b[j] > '~')
+				_putchar('.');
+			else
+				_putchar(b[j]);
+		}
+		_putchar('\n');
 	}
-
-	_putchar(' ');
 }
 
 /**
- * print_char - Prints the character part of the buffer line
- * @b: The buffer
- * @i: The starting index
- * @size: The size of the buffer
+ * print_hex - prints an integer in hexadecimal (lowercase)
+ * @n: integer
  */
-void print_char(char *b, int i, int size)
+void print_hex(int n)
 {
-	int j;
+	int i;
+	char hex[9];
 
-	for (j = 0; j < 10 && i + j < size; j++)
-	{
-		if (b[i + j] >= 32 && b[i + j] <= 126)
-			_putchar(b[i + j]);
-		else
-			_putchar('.');
-	}
-
-	_putchar('\n');
+	for (i = 7; i >= 0; i--, n >>= 4)
+		hex[i] = "0123456789abcdef"[n & 0xF];
+	for (i = 0; i < 8; i++)
+		_putchar(hex[i]);
 }
