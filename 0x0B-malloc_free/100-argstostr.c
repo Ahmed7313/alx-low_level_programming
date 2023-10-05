@@ -2,11 +2,11 @@
 #include <stdlib.h>
 
 /**
- * argstostr - Concatenates all the arguments of the program.
- * @ac: The argument count.
- * @av: The argument values.
+ * argstostr - Concatenates all arguments of the program.
+ * @ac: Argument count.
+ * @av: Argument values.
  *
- * Return: Pointer to the new string, or NULL if failure or if ac == 0 or av == NULL.
+ * Return: Pointer to new string, or NULL if failure or ac == 0 or av == NULL.
  */
 char *argstostr(int ac, char **av)
 {
@@ -16,12 +16,12 @@ char *argstostr(int ac, char **av)
 	if (ac == 0 || av == NULL)
 		return (NULL);
 
-	/* Calculate total length for all the arguments */
+	/* Calculate total length for arguments */
 	for (i = 0; i < ac; i++)
 	{
 		for (j = 0; av[i][j]; j++)
 			;
-		total_len += j + 1; /* add 1 for the newline */
+		total_len += j + 1;
 	}
 
 	str = malloc((total_len + 1) * sizeof(char));
