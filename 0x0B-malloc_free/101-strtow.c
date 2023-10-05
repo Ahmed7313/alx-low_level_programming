@@ -29,10 +29,8 @@ int word_count(char *str)
  * strtow - Splits a string into words.
  * @str: The string.
  *
- * Return: If str == NULL, str == "", or the function fails - NULL.
- *         Otherwise - a pointer to an array of strings (words).
- *         Each element of this array should contain a single word, null-terminated.
- *         The last element of the returned array should be NULL.
+ * Return: NULL if str == NULL, str == "", or the function fails.
+ *         Otherwise, a pointer to an array of strings (words).
  */
 char **strtow(char *str)
 {
@@ -43,7 +41,6 @@ char **strtow(char *str)
 		return (NULL);
 
 	wc = word_count(str);
-
 	if (wc == 0)
 		return (NULL);
 
