@@ -40,15 +40,15 @@ int main(int argc, char *argv[])
 	len2 = strlen(argv[2]);
 	len = len1 + len2;
 
-	result = malloc(len + 1);
+	result = calloc(len, sizeof(char));
 	if (!result)
 	{
 		printf("Error\n");
 		exit(98);
 	}
+
 	for (i = 0; i < len; i++)
 		result[i] = '0';
-	result[len] = '\0';
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 			carry = temp / 10;
 			result[i + j + 1] = (temp % 10) + '0';
 		}
-		result[i + j + 1] += carry + '0';
+		result[i + j + 1] = carry + '0';
 	}
 
 	i = (result[0] == '0') ? 1 : 0;
