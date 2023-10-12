@@ -1,1 +1,6 @@
-read me 
+#!/bin/bash
+echo " input your message "
+read var
+git add .
+git commit -m "${var}"
+git push
