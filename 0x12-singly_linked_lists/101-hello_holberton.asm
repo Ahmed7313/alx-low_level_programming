@@ -1,18 +1,20 @@
 section .data
-    hello db 'Hello, Holberton',0xa,0  ; null-terminated string with newline
+    hello db 'Hello, Holberton', 0xa, 0 ; Null-terminated string with newline
 
 section .text
-    extern printf
+    extern printf, exit
     global _start
 
 _start:
     ; Prepare the arguments for printf
-    mov rdi, hello      ; format string
-    xor rax, rax        ; no floating-point arguments
+    mov rdi, hello  ; format string
+    xor rax, rax    ; no floating-point arguments
+    
     ; Call printf
     call printf
     
-    ; Exit the program
-    mov rax, 60         ; syscall number for exit
-    xor rdi, rdi        ; status 0
-    syscall
+    ; Prepare the arguments for exit
+    xor rdi, rdi  ; status 0
+    
+    ; Call exit
+    call exit
