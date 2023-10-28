@@ -7,13 +7,14 @@
  */
 int get_endianness(void)
 {
-	union
-	{
-		unsigned int i;
-		char c[4];
-	} u;
+    /* Union to help in determining endianness */
+    union
+    {
+        unsigned int i;
+        char c[4];
+    } u;
 
-	u.i = 1;
+    u.i = 1;
 
-	return (u.c[0]);
+    return (u.c[0]);
 }
