@@ -14,4 +14,6 @@ void do_copy(int from_fd, int to_fd);
 int _putchar(char c);
 void print_error(const char *message, const char *filename);
 int main(int argc, char *argv[]);
+void close_file(int fd);
+void copy_content(const char *file_from, const char *file_to);
 #endif /* MAIN_H */
