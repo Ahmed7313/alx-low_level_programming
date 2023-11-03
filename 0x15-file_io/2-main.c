@@ -3,24 +3,20 @@
 #include "main.h"
 
 /**
- * main - Entry point and test function for append_text_to_file.
- * @argc: Argument count.
- * @argv: Argument vector.
+ * main - check the code
  *
- * Return: Always 0 (Success)
+ * Return: Always 0.
  */
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
     int res;
 
-    if (argc != 3)
+    if (ac != 3)
     {
-        dprintf(STDERR_FILENO, "Usage: %s filename text\n", argv[0]);
-        exit(EXIT_FAILURE);
+        dprintf(2, "Usage: %s filename text\n", av[0]);
+        exit(1);
     }
-
-    res = append_text_to_file(argv[1], argv[2]);
+    res = append_text_to_file(av[1], av[2]);
     printf("-> %i)\n", res);
-
-    return (EXIT_SUCCESS);
+    return (0);
 }

@@ -41,7 +41,7 @@ int append_text_to_file(const char *filename, char *text_content)
  * @str: The string to measure.
  * Return: The length of the string.
  */
-static int _strlen(char *str)
+int _strlen(char *str)
 {
 	int len = 0;
 
