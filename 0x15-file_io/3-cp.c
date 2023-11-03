@@ -1,92 +1,103 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#define BUF_SIZE 1024
 
-#define BUFFER_SIZE 1024
+void check_argc(int argc);
+void close_file(int fd, char *filename);
+void copy_content(int file_from, int file_to,
+		  char *file_from_name, char *file_to_name);
 
 /**
- * close_file - Closes file descriptor.
- * @fd: The file descriptor to close.
+ * main - Entry point, copies content from one file to another
+ * @argc: Argument count
+ * @argv: Argument vector
+ *
+ * Return: 0 on success, other numbers based on type of failure
  */
-void close_file(int fd)
+int main(int argc, char *argv[])
 {
-	if (close(fd) == -1)
+	int file_from, file_to;
+
+	check_argc(argc);
+
+	file_from = open(argv[1], O_RDONLY);
+	if (file_from < 0)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		exit(98);
+	}
+
+	/* Ensure the line below does not exceed 80 characters */
+	file_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_to < 0)
+	{
+		close(file_from);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+		exit(99);
+	}
+
+	copy_content(file_from, file_to, argv[1], argv[2]);
+
+	close_file(file_from, argv[1]);
+	close_file(file_to, argv[2]);
+
+	return (0);
+}
+
+/**
+ * check_argc - Checks if the number of arguments is correct
+ * @argc: The number of arguments
+ */
+void check_argc(int argc)
+{
+	if (argc != 3)
+	{
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		exit(97);
+	}
+}
+
+/**
+ * close_file - Closes a file descriptor and prints an error if it fails
+ * @fd: The file descriptor to close
+ * @filename: The name of the file associated with the descriptor
+ */
+void close_file(int fd, char *filename)
+{
+	if (close(fd) < 0)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %s\n", filename);
 		exit(100);
 	}
 }
 
 /**
- * check_file_access - Checks the file access and opens files.
- * @from_fd: Pointer to the file descriptor of the source file.
- * @to_fd: Pointer to the file descriptor of the destination file.
- * @file_from: The name of the source file.
- * @file_to: The name of the destination file.
+ * copy_content - Copies the content of a file to another
+ * @file_from: The file descriptor for the source file
+ * @file_to: The file descriptor for the destination file
+ * @file_from_name: The name of the source file
+ * @file_to_name: The name of the destination file
  */
-void check_file_access(int *from_fd, int *to_fd,
-	const char *file_from, const char *file_to)
+void copy_content(int file_from, int file_to,
+		  char *file_from_name, char *file_to_name)
 {
-	*from_fd = open(file_from, O_RDONLY);
-	if (*from_fd == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
-		exit(98);
-	}
-	*to_fd = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (*to_fd == -1)
-	{
-		close_file(*from_fd);
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
-		exit(99);
-	}
-}
+	ssize_t r, w;
+	char buf[BUF_SIZE];
 
-/**
- * do_copy - Copies content from one file to another.
- * @from_fd: The file descriptor of the source file.
- * @to_fd: The file descriptor of the destination file.
- */
-void do_copy(int from_fd, int to_fd)
-{
-	ssize_t r_count, w_count;
-	char buf[BUFFER_SIZE];
-
-	while ((r_count = read(from_fd, buf, BUFFER_SIZE)) > 0)
+	while ((r = read(file_from, buf, BUF_SIZE)) > 0)
 	{
-		w_count = write(to_fd, buf, r_count);
-		if (w_count != r_count)
+		w = write(file_to, buf, r);
+		if (w != r)
 		{
-			close_file(from_fd);
-			close_file(to_fd);
-			dprintf(STDERR_FILENO, "Error: Can't write to fd %d\n", to_fd);
+			dprintf(STDERR_FILENO,
+				"Error: Can't write to %s\n", file_to_name);
 			exit(99);
 		}
 	}
-	if (r_count == -1)
+
+	if (r == -1)
 	{
-		close_file(from_fd);
-		close_file(to_fd);
-		perror("Error: Can't read from fd");
+		dprintf(STDERR_FILENO,
+			"Error: Can't read from file %s\n", file_from_name);
 		exit(98);
 	}
 }
-
-/**
- * copy_content - Orchestrates the file copying process.
- * @file_from: The name of the source file.
- * @file_to: The name of the destination file.
- */
-void copy_content(const char *file_from, const char *file_to)
-{
-	int from_fd, to_fd;
-
-	check_file_access(&from_fd, &to_fd, file_from, file_to);
-	do_copy(from_fd, to_fd);
-	close_file(from_fd);
-	close_file(to_fd);
-}
-
