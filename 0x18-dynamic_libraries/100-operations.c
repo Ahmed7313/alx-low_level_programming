@@ -23,3 +23,12 @@ double div(int a, int b) {
     }
     return (double)a / b;
 }
+
+// Function to calculate modulus of two numbers
+int mod(int a, int b) {
+    if (b == 0) {
+        printf("Error: Division by zero in modulus operation!\n");
+        return 0;
+    }
+    return a % b;
+}
